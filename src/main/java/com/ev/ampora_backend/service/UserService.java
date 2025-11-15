@@ -20,16 +20,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // ---------------- REGISTER USER ----------------
+
     public UserDTO register(RegisterRequest request) {
 
-        // Email exists check (optional but recommended)
+
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists!");
         }
 
         User user = User.builder()
-                .userId(UUID.randomUUID().toString()) // String UUID
+                .userId(UUID.randomUUID().toString())
                 .fullName(request.getFullName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
@@ -42,7 +42,7 @@ public class UserService {
         return mapToDto(user);
     }
 
-    // ---------------- LOGIN ----------------
+
     public User login(String email, String password) {
 
         User user = userRepository.findByEmail(email)
@@ -55,7 +55,7 @@ public class UserService {
         return user;
     }
 
-    // ---------------- GET ALL USERS ----------------
+
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll()
                 .stream()
@@ -63,7 +63,7 @@ public class UserService {
                 .toList();
     }
 
-    // ---------------- GET USER BY ID ----------------
+
     public UserDTO getUserById(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -71,7 +71,7 @@ public class UserService {
         return mapToDto(user);
     }
 
-    // ---------------- DELETE USER ----------------
+
     public void deleteUser(String id) {
         if (!userRepository.existsById(id)) {
             throw new ResourceNotFoundException("User not found");
@@ -79,7 +79,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    // ---------------- MAPPING ----------------
+
     private UserDTO mapToDto(User user) {
         return new UserDTO(
                 user.getUserId(),
