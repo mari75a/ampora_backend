@@ -8,6 +8,7 @@ import com.ev.ampora_backend.entity.User;
 import com.ev.ampora_backend.entity.Vehicle;
 import com.ev.ampora_backend.repository.UserRepository;
 import com.ev.ampora_backend.repository.VehicleRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class VehicleService {
   private final VehicleRepository vehicleRepo;
   private final UserRepository userRepo;
@@ -39,6 +41,7 @@ public class VehicleService {
   }
 
   public void deleteVehicle(String id){
+      System.out.println("Deleting Vehicle ID: " + id);
       if(!vehicleRepo.existsById(id)){
           throw new RuntimeException("Vehicle not found");
       }
